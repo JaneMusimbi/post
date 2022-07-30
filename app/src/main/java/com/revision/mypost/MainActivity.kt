@@ -1,14 +1,15 @@
 package com.revision.mypost
 
 //import android.graphics.PostProcessor
+import android.content.ContentValues.TAG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-//import android.telecom.Call
-//import android.view.SurfaceHolder
-//import android.widget.LinearLayout
+import android.util.Log
+
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.revision.mypost.databinding.ActivityMainBinding
+import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         request.enqueue(object : Callback<List<Post>> {
             override fun onResponse(
-                call: retrofit2.Call<List<Post>>,
+                call:Call<List<Post>>,
                 response: Response<List<Post>>
             ) {
                 if (response.isSuccessful){
@@ -34,14 +35,16 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(baseContext,"Fetched ${posts!!.size} posts", Toast.LENGTH_LONG)
                         .show()
 
-                    var displayPostsRvAdapter=displayPostrvAdapter(baseContext,posts)
+                    var PostrvAdapter=PostrvAdapter(baseContext,posts)
+                    Log.d("Tag",posts.toString())
                     binding.rvPost.layoutManager=LinearLayoutManager(baseContext)
-                    binding.rvPost.adapter = displayPostsRvAdapter
+                    binding.rvPost.adapter = PostrvAdapter
 
                 }
             }
 
-            override fun onFailure(call: retrofit2.Call<List<Post>>, t: Throwable) {
+            override fun onFailure(call: Call<List<Post>>, t: Throwable) {
+                Toast.makeText(baseContext,t.message,Toast.LENGTH_LONG).show()
             }
 
         })
