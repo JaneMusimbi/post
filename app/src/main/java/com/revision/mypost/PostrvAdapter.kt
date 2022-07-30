@@ -8,15 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.revision.mypost.databinding.ActivityMainBinding
 import com.revision.mypost.databinding.PostListItemBinding
 
-class PostrvAdapter(var  context: Context, var displaypost:List<Post>):
-    RecyclerView.Adapter<PostrvAdapter.RetrofitViewHolder>(){
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):RetrofitViewHolder {
-        var binding = PostListItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        return RetrofitViewHolder(binding)
+class PostrvAdapter(var  context: Context, var post:List<Post>):
+    RecyclerView.Adapter<PostViewHolder>(){
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):PostViewHolder {
+        var binding = PostListItemBinding.inflate(LayoutInflater.from(context),parent,false)
+        return PostViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: RetrofitViewHolder, position: Int) {
-        var currentPosts = displaypost.get(position)
+    override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
+        var currentPosts = post.get(position)
         with(holder.binding){
             tvuserId.text = currentPosts.userId.toString()
             tvid.text = currentPosts.id.toString()
@@ -26,9 +26,8 @@ class PostrvAdapter(var  context: Context, var displaypost:List<Post>):
     }
 
     override fun getItemCount(): Int {
-        return displaypost.size
+        return post.size
     }
-    class RetrofitViewHolder(val binding: PostListItemBinding): RecyclerView.ViewHolder(binding.root)
-
 }
+class PostViewHolder(val binding: PostListItemBinding): RecyclerView.ViewHolder(binding.root)
 
